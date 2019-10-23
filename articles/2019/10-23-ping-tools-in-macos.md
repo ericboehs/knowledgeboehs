@@ -1,3 +1,5 @@
+Tags: Mac Apps
+
 # Ping Tools in macOS
 
 I was looking for an outbound ping tool that I could run continuously on a secondary monitor or in the background so I could quickly troubleshoot internet outages or packet loss.
