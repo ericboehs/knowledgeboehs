@@ -18,8 +18,8 @@ Add several hosts so if there's an outage with your internet, you'll see all hos
 
 Some other options:
 
-[mtr][3] - This is a traceroute terminal app that continually pings each host in a traceroute
-[autoping][4] - GUI mac app I used to use; no longer available though
+* [mtr][3] - This is a traceroute terminal app that continually pings each host in a traceroute
+* [autoping][4] - GUI mac app I used to use; no longer available though
 
 [1]:	http://www.ermitacode.com/icmputil.html "ICMPUtil"
 [2]:	https://apps.apple.com/us/app/icmputil/id866965011?mt=12 "on the App Store"
