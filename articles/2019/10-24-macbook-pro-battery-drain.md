@@ -1,3 +1,5 @@
+Tags: Mac Tips
+
 # MacBook Pro Battery Drain
 
 My main computer is my iMac. It seemed like every time I opened my MacBook Pro, it would show this screen:
