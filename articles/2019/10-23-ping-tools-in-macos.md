@@ -21,7 +21,7 @@ Some other options:
 * [mtr][3] - This is a traceroute terminal app that continually pings each host in a traceroute
 * [autoping][4] - GUI mac app I used to use; no longer available though
 
-[1]:	http://www.ermitacode.com/icmputil.html "ICMPUtil"
+[1]: 	http://www.ermitacode.com/icmputil.html "ICMPUtil"
 [2]:	https://apps.apple.com/us/app/icmputil/id866965011?mt=12 "on the App Store"
 [3]:	https://formulae.brew.sh/formula/mtr "mtr"
 [4]:	https://sixcolors.com/post/2015/02/autoping-keeps-an-eye-on-my-network/ "autoping"
