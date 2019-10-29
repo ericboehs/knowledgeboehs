@@ -1,12 +1,12 @@
 Tags: Rails
 
-# Rails CDN and Active Storage
+# Rails CDN and ActiveStorage
 When serving assets and attachments from Rails and ActiveStorage, a CDN is a great way to reduce load on your web server and speed up content delivery to your users.
 
 ## Asset CDN
 First, even if you're not using ActiveStorage, you'll want to set up a CDN to stand in front of your app. This will proxy requests for images, fonts, javascripts, and stylesheets that live in your app's repository.
 
-The ideal setup here is to serve your assets from your app, set a high cache-expiration, and serve your assets through a CDN. For more information, on serving assets, caching, and cache invalidation, see the [Rails Guides][1].
+The ideal setup here is to serve your assets from your app, set a high cache-expiration, and serve your assets through a CDN.
 
 ### Setting up your Asset CDN
 For a CDN, I recommend Amazon CloudFront. You'll want to create a web distribution which points at the root of your app. Heroku [has a good guide][2] on that.
@@ -22,6 +22,8 @@ config.action_controller.asset_host = ENV['ASSET_HOST']
 ```
 
 Once you've configured the above, your production assets should serve from your CloudFront CDN.
+
+For more information, on serving assets, caching, and cache invalidation, see the [Rails Guides][1].
 
 ---
 
