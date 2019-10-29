@@ -35,7 +35,7 @@ I opted for creating a second CDN distribution that sits in front of the cloud s
 1. In `config/environment/production.rb`, set ActiveStorage's `service_urls_expire_in` :
 
 	```ruby
-	# Allow CDN and Browsers to cache attachments
+	# Tell our CDN and browser to cache attachments for a year.
 	config.active_storage.service_urls_expire_in = 1.year
 	```
 1. In config/storage.yml, configure the service and default `cache_control` for uploaded attachments [by adding the upload key][6] [^4]:
