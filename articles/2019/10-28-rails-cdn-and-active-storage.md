@@ -11,7 +11,7 @@ The ideal setup here is to serve your assets from your app, set a high cache-exp
 ### Setting up your Asset CDN
 For a CDN, I recommend Amazon CloudFront. You'll want to create a web distribution which points at the root of your app. Heroku [has a good guide][2] on that.
 
-Once it's set up, set an environment variable (e.g. `ASSET_HOST`) to the distribution domain name and configure your `asset_host`. Also, set a long expiration for your assets. In `config/environments/production.rb` [^1] [^2]:
+Once it's set up, set an environment variable[^1] (e.g. `ASSET_HOST`) to the distribution domain name and configure your `asset_host`. Also, set a long expiration for your assets. In `config/environments/production.rb` [^2] [^3]:
 
 ```ruby
 # Tell our CDN and browser to cache assets for a year.
@@ -28,9 +28,9 @@ Once you've configured the above, your production assets should serve from your 
 ## ActiveStorage Attachments served through a CDN
 When you serve attachments from a cloud storage service (I'm using S3), it will be coming from a different domain than your app. One solution to this would be to [stream the file contents through your app][4].
 
-I opted for creating a second CDN distribution that sits in front of the cloud storage provider that ActiveStorage serves for its 302 redirect [^3]. This does require a little configuration. Thankfully nothing needs to be monkey patched.
+I opted for creating a second CDN distribution that sits in front of the cloud storage provider that ActiveStorage serves for its 302 redirect [^4]. This does require a little configuration. Thankfully nothing needs to be monkey patched.
 
-1. Create a second CloudFront web distribution that points to your S3 bucket and point your `ATTACHMENT_HOST` env variable at it.
+1. Create a second CloudFront web distribution that points to your S3 bucket and point your `ATTACHMENT_HOST` env variable at it (prepended with https://).
 1. In `lib/active_storage/service/s3_directory_service.rb`, create the service in [this gist][5].
 1. In `config/environment/production.rb`, set ActiveStorage's `service_urls_expire_in` :
 
@@ -38,7 +38,7 @@ I opted for creating a second CDN distribution that sits in front of the cloud s
 	# Tell our CDN and browser to cache attachments for a year.
 	config.active_storage.service_urls_expire_in = 1.year
 	```
-1. In config/storage.yml, configure the service and default `cache_control` for uploaded attachments [by adding the upload key][6] [^4]:
+1. In config/storage.yml, configure the service and default `cache_control` for uploaded attachments [by adding the upload key][6] [^5]:
 
 	```yaml
 	amazon:
@@ -47,24 +47,26 @@ I opted for creating a second CDN distribution that sits in front of the cloud s
 	  upload:
 	    cache_control: 'public, max-age=31536000'
 	```
-1. When linking to the attachments, use the `rails_blob_url` helper like so: [^5] 
+1. When linking to the attachments, use the `rails_blob_url` helper like so: [^6] 
 
 	```ruby
 	rails_blob_url user.avatar, host: ENV['ASSET_HOST']
 	```
 	(For variants, you'll need to call `rails_representation_url` instead.)
 
-Now your ActiveStorage attachments will serve through the two CDNs: the first request will hit Rails' Representations or Blob controller (through the ASSET_HOST CDN) which will redirect to the service url for the attachment (through the attachment CDN we just created).
+Now your ActiveStorage attachments will serve through the two CDNs: the first request will hit Rails' Representations or Blob controller (through the ASSET\_HOST CDN) which will redirect to the service url for the attachment (through the attachment CDN we just created).
 
-[^1]:	If you're using Heroku Review Apps, you'll want to conditionally use `ENV['HEROKU_APP_NAME']` based on `ENV['HEROKU_PARENT_APP_NAME']`.
+[^1]:	Prepend the host with https://.
 
-[^2]:	You may also want to [set your mailers' asset host][3].
+[^2]:	If you're using Heroku Review Apps, you'll want to conditionally use `ENV['HEROKU_APP_NAME']` based on `ENV['HEROKU_PARENT_APP_NAME']`.
 
-[^3]:	See Rails' Representation and Variants controller to see how that works.
+[^3]:	You may also want to [set your mailers' asset host][3].
 
-[^4]:	If you already have ActiveStorage attachments uploaded in production, you can make them public and add a cache-control header [by using aws cli tools][7].
+[^4]:	See Rails' Representation and Variants controller to see how that works.
 
-[^5]:	You may want to create a helper method to make this a little cleaner.
+[^5]:	If you already have ActiveStorage attachments uploaded in production, you can make them public and add a cache-control header [by using aws cli tools][7].
+
+[^6]:	You may want to create a helper method to make this a little cleaner.
 
 [1]:	https://guides.rubyonrails.org/asset_pipeline.html#cdns-and-the-cache-control-header
 [2]:	https://help.heroku.com/8JTD2TJ6/how-should-i-configure-cloudfront-to-work-with-heroku
