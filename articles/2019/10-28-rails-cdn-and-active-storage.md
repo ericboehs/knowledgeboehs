@@ -1,17 +1,17 @@
 Tags: Rails
 
 # Rails CDN and Active Storage
-When serving assets and images from Rails and ActiveStorage, a CDN is a great way to reduce load on your web server and speed up content delivery to your users.
+When serving assets and attachments from Rails and ActiveStorage, a CDN is a great way to reduce load on your web server and speed up content delivery to your users.
 
 ## Asset CDN
 First, even if you're not using ActiveStorage, you'll want to set up a CDN to stand in front of your app. This will proxy requests for images, fonts, javascripts, and stylesheets that live in your app's repository.
 
 The ideal setup here is to serve your assets from your app, set a high cache-expiration, and serve your assets through a CDN. For more information, on serving assets, caching, and cache invalidation, see the [Rails Guides][1].
 
-### The Setup
+### Setting up your Asset CDN
 For a CDN, I recommend Amazon CloudFront. You'll want to create a web distribution which points at the root of your app. Heroku [has a good guide][2] on that.
 
-Once it's set up, set an environment variable (e.g. `ASSET_HOST`) to the distribution domain name and configure your `asset_host`. Also, set a long expiration for your assets. In `config/environments/production.rb`[^1] [^2]:
+Once it's set up, set an environment variable (e.g. `ASSET_HOST`) to the distribution domain name and configure your `asset_host`. Also, set a long expiration for your assets. In `config/environments/production.rb` [^1] [^2]:
 
 ```ruby
 # Tell our CDN and browser to cache assets for a year.
@@ -22,13 +22,15 @@ config.action_controller.asset_host = ENV['ASSET_HOST']
 ```
 
 Once you've configured the above, your production assets should serve from your CloudFront CDN.
+
 ---
 
 ## ActiveStorage Attachments served through a CDN
 When you serve attachments from a cloud storage service (I'm using S3), it will be coming from a different domain than your app. One solution to this would be to [stream the file contents through your app][4].
 
-I opted for creating a second CDN distribution that sits in front of the cloud storage provider that ActiveStorage serves for its 302 redirect[^3]. This does require a little configuration. Thankfully nothing needs to be monkey patched.
+I opted for creating a second CDN distribution that sits in front of the cloud storage provider that ActiveStorage serves for its 302 redirect [^3]. This does require a little configuration. Thankfully nothing needs to be monkey patched.
 
+1. Create a second CloudFront web distribution that points to your S3 bucket and point your `CLOUDFRONT_ATTACHMENT_ENDPOINT` env variable at it.
 1. In `lib/active_storage/service/s3_directory_service.rb`, create the service in [this gist][5].
 1. In `config/environment/production.rb`, set ActiveStorage's `service_urls_expire_in` :
 	```ruby
@@ -48,6 +50,8 @@ I opted for creating a second CDN distribution that sits in front of the cloud s
 	rails_blob_url user.avatar, host: ENV['ASSET_HOST']
 	```
 	(For variants, you'll need to call `rails_representation_url` instead.)
+
+Now your ActiveStorage attachments will serve through the two CDNs: the first request will be hit Rails' Representations and Blob controller (through the ASSET_HOST CDN) which will redirect to the service url for the attachment (through the attachment CDN we just created here).
 
 [^1]:	If you're using Heroku Review Apps, you'll want to conditionally use `ENV['HEROKU_APP_NAME']` based on `ENV['HEROKU_PARENT_APP_NAME']`.
 
