@@ -56,7 +56,7 @@ I opted for creating a second CDN distribution that sits in front of the cloud s
 	```
 	(For variants, you'll need to call `rails_representation_url` instead.)
 
-Now your ActiveStorage attachments will serve through the two CDNs: the first request will hit Rails' Representations or Blob controller (through the ASSET\_HOST CDN) which will redirect to the service url for the attachment (through the attachment CDN we just created).
+Now your ActiveStorage attachments will serve through the two CDNs: the first request will hit Rails' Representations or Blob controller (through the ASSET\_HOST CDN) which will redirect to the service url for the attachment (through the attachment CDN we just created). If this attachment has been served to a previous user, no request will hit your web server as CloudFront will have it in its cache. If that user has requested the attachment before, it well be served from the browser's memory and no request will be made.[^7]
 
 [^1]:	Prepend the host with https://.
 
@@ -69,6 +69,8 @@ Now your ActiveStorage attachments will serve through the two CDNs: the first re
 [^5]:	If you already have ActiveStorage attachments uploaded in production, you can make them public and add a cache-control header [by using aws cli tools][7].
 
 [^6]:	You may want to create a helper method to make this a little cleaner.
+
+[^7]:	The same is true for your assets and the Asset CDN.
 
 [1]:	https://guides.rubyonrails.org/asset_pipeline.html#cdns-and-the-cache-control-header
 [2]:	https://help.heroku.com/8JTD2TJ6/how-should-i-configure-cloudfront-to-work-with-heroku
