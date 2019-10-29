@@ -54,7 +54,7 @@ I opted for creating a second CDN distribution that sits in front of the cloud s
 	```
 	(For variants, you'll need to call `rails_representation_url` instead.)
 
-Now your ActiveStorage attachments will serve through the two CDNs: the first request will be hit Rails' Representations and Blob controller (through the ASSET_HOST CDN) which will redirect to the service url for the attachment (through the attachment CDN we just created here).
+Now your ActiveStorage attachments will serve through the two CDNs: the first request will hit Rails' Representations or Blob controller (through the ASSET_HOST CDN) which will redirect to the service url for the attachment (through the attachment CDN we just created).
 
 [^1]:	If you're using Heroku Review Apps, you'll want to conditionally use `ENV['HEROKU_APP_NAME']` based on `ENV['HEROKU_PARENT_APP_NAME']`.
 
