@@ -33,11 +33,13 @@ I opted for creating a second CDN distribution that sits in front of the cloud s
 1. Create a second CloudFront web distribution that points to your S3 bucket and point your `CLOUDFRONT_ATTACHMENT_ENDPOINT` env variable at it.
 1. In `lib/active_storage/service/s3_directory_service.rb`, create the service in [this gist][5].
 1. In `config/environment/production.rb`, set ActiveStorage's `service_urls_expire_in` :
+
 	```ruby
 	# Allow CDN and Browsers to cache attachments
 	config.active_storage.service_urls_expire_in = 1.year
 	```
 1. In config/storage.yml, configure the service and default `cache_control` for uploaded attachments [by adding the upload key][6] [^4]:
+
 	```yaml
 	amazon:
 	  service: S3Directory
@@ -46,6 +48,7 @@ I opted for creating a second CDN distribution that sits in front of the cloud s
 	    cache_control: 'public, max-age=31536000'
 	```
 1. When linking to the attachments, use the `rails_blob_url` helper like so: [^5] 
+
 	```ruby
 	rails_blob_url user.avatar, host: ENV['ASSET_HOST']
 	```
