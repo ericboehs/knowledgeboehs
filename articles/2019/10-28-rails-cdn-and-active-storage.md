@@ -56,7 +56,7 @@ I opted for creating a second CDN distribution that sits in front of the cloud s
 	```
 	(For variants, you'll need to call `rails_representation_url` instead.)
 
-Now your ActiveStorage attachments will serve through the two CDNs: the first request will hit Rails' Representations or Blob controller (through the ASSET\_HOST CDN) which will redirect to the service url for the attachment (through the attachment CDN we just created). If this attachment has been served to a previous user, no request will hit your web server as CloudFront will have it in its cache. If that user has requested the attachment before, it well be served from the browser's memory and no request will be made.[^7]
+Now your ActiveStorage attachments will serve through the two CDNs: the first request will hit Rails' Representations or Blob controller (through the Asset CDN) which will redirect to the service url for the attachment (through the Attachment CDN). If this attachment has been served to a previous user, no request will hit your web server as CloudFront will have it in its cache. If that user has requested the attachment before, it well be served from the browser's memory and no request will be made.[^7]
 
 [^1]:	Prepend the host with https://.
 
