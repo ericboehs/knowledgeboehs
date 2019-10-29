@@ -30,7 +30,7 @@ When you serve attachments from a cloud storage service (I'm using S3), it will 
 
 I opted for creating a second CDN distribution that sits in front of the cloud storage provider that ActiveStorage serves for its 302 redirect [^3]. This does require a little configuration. Thankfully nothing needs to be monkey patched.
 
-1. Create a second CloudFront web distribution that points to your S3 bucket and point your `CLOUDFRONT_ATTACHMENT_ENDPOINT` env variable at it.
+1. Create a second CloudFront web distribution that points to your S3 bucket and point your `ATTACHMENT_HOST` env variable at it.
 1. In `lib/active_storage/service/s3_directory_service.rb`, create the service in [this gist][5].
 1. In `config/environment/production.rb`, set ActiveStorage's `service_urls_expire_in` :
 
