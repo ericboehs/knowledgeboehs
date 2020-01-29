@@ -59,7 +59,7 @@ closed backed headphones so that audio doesn't leak into your microphone. I've h
 MDR7506](http://amzn.com/B000AJIF4E). I personally use the [Shure SE215](http://amzn.com/B07WLN43K3) as they are in-ear
 monitors which aren't so obnoxious on camera.
 
-## "This is expensive"
+## Too expensive for you?
 
 Another option to all of the above is a USB microphone and some wired earbuds. The [Audio-Technica
 AT2005USB](http://amzn.com/B007JX8O0Y) is a hand-held mic that comes with a stand. It has a standard headphone jack for
@@ -69,7 +69,7 @@ microphone. I haven't used it personally.
 
 (This could be a good mobile solution as well.)
 
-## "I have too much money"
+## Find yourself saying "I have too much money" or "I want more options"?
 
 Check out Marco Arment's [Podcasting Microphones Mega-Review](https://marco.org/podcasting-microphones). He uses a $250
 microphone with a $880 USB Interface and $1300 headphones with a $850 headphone amp.
