@@ -62,7 +62,7 @@ monitors which aren't so obnoxious on camera.
 ## Too expensive for you?
 
 Another option to all of the above is a USB microphone and some wired earbuds. The [Audio-Technica
-AT2005USB](http://amzn.com/B007JX8O0Y) is a hand-held mic that comes with a stand. It has a standard headphone jack for
+ATR2100x-USB](http://amzn.com/B07ZPBFVKK) is a hand-held mic that comes with a stand. It has a standard headphone jack for
 audio monitoring and will work as an audio output so you can hear yourself and your computer's audio in your headphones. It also has an XLR port so if
 you wanted to slowly upgraded into a boom arm, usb interface, and so on, you could do so without having to buy a new
 microphone. I haven't used it personally.
