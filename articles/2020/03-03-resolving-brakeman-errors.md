@@ -19,6 +19,8 @@ Finally, you'll want to save changes via `1` and, due to amnesia or disorder, Br
 You can run `brakeman` again and it should report "No warnings found". You're all ready to check the ignore file into source control and push it up to your CI.
 
 ## Brakeman's Out of Date
+The short report.
+
 This only appears if you're running `brakeman --enusre-latest` (which I highly recommend).
 
 To fix, simply run `bundle update brakeman`. This will update your `Gemfile.lock` which is all you should need to change.
